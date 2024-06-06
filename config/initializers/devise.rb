@@ -14,7 +14,9 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
+  # rubocop:todo Layout/LineLength
   # config.secret_key = 'e642d77bccfd28f0b27a02a021ad60f819925cc202e9a654409e06da4020d229ae90265f8025d211723c13cd405ca7a130740fa5018452c6511263d361d32fc0'
+  # rubocop:enable Layout/LineLength
   config.jwt do |jwt|
     # choisir une option :
     # jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
@@ -130,7 +132,9 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
+  # rubocop:todo Layout/LineLength
   # config.pepper = 'b6d23ee784e5a4fae7000ae4bad2d9ef0f1600bf6b369f451b44984963e246a9ee677abaf4ac95d609663fa935db842be3feb410134022a0a31d92e6f96c675c'
+  # rubocop:enable Layout/LineLength
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -269,7 +273,7 @@ Devise.setup do |config|
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html, :turbo_stream]
   config.navigational_formats = []
-  
+
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
