@@ -52,3 +52,5 @@ gem 'devise-jwt', '~> 0.11.0'
 
 gem 'table_print', '~> 1.5'
 gem 'rubocop', '~> 1.64'
+
+gem "dotenv", "~> 3.1"
