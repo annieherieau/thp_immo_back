@@ -1,38 +1,39 @@
 # frozen_string_literal: true
 
-# app/controllers/users/sessions_controller.rb
+class Users::SessionsController < Devise::SessionsController
+  respond_to :json
 
-module Users
-  class SessionsController < Devise::SessionsController # rubocop:todo Style/Documentation
-    respond_to :json
+  private
 
-    private
+  def respond_with(resource, _opt = {})
+    @token = request.env['warden-jwt_auth.token']
+    headers['Authorization'] = @token
 
-    def respond_with(_resource, _opts = {})
-      if current_user
-        render json: {
-          message: 'You are logged in.',
-          user: current_user
-        }, status: :ok
-      else
-        render json: {
-          message: 'Connexion failed'
-        }, status: :unauthorized
-      end
+    render json: {
+      status: 200,
+      message: 'Logged in successfully.',
+      token: @token,
+      user: current_user
+    }, status: :ok
+  end
+
+  def respond_to_on_destroy
+    if request.headers['Authorization'].present?
+      jwt_payload = JWT.decode(request.headers['Authorization'].split.last,
+        Rails.application.credentials.devise_jwt_secret_key!).first
+      current_user = User.find(jwt_payload['sub'])
     end
 
-    def respond_to_on_destroy
-      log_out_success && return if current_user
-
-      log_out_failure
-    end
-
-    def log_out_success
-      render json: { message: 'You are logged out.' }, status: :ok
-    end
-
-    def log_out_failure
-      render json: { message: 'Hmm nothing happened.' }, status: :unauthorized
+    if current_user
+      render json: {
+        status: 200,
+        message: 'Logged out successfully.'
+      }, status: :ok
+    else
+      render json: {
+        status: 401,
+        message: "Couldn't find an active session."
+      }, status: :unauthorized
     end
   end
 end
