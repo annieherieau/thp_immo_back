@@ -13,7 +13,8 @@ class Users::SessionsController < Devise::SessionsController
       status: {code: 200,
         message: 'Logged in successfully.'},
       data: {token: @token,
-        user: current_user}
+        user: current_user,
+      session: session}
     }, status: :ok
   end
 

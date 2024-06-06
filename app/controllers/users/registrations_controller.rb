@@ -14,7 +14,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
         status: {code: 200, 
         message: 'Signed up successfully.'},
         data: {token: @token,
-        user: current_user}
+        user: current_user,
+        session: session}
       }, status: :ok
     else
       render json: {
