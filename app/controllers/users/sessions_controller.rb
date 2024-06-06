@@ -10,10 +10,10 @@ class Users::SessionsController < Devise::SessionsController
     headers['Authorization'] = @token
 
     render json: {
-      status: 200,
-      message: 'Logged in successfully.',
-      token: @token,
-      user: current_user
+      status: {code: 200,
+        message: 'Logged in successfully.'},
+      data: {token: @token,
+        user: current_user}
     }, status: :ok
   end
 
@@ -26,13 +26,13 @@ class Users::SessionsController < Devise::SessionsController
 
     if current_user
       render json: {
-        status: 200,
-        message: 'Logged out successfully.'
+        status: {code: 200,
+        message: 'Logged out successfully.'}
       }, status: :ok
     else
       render json: {
-        status: 401,
-        message: "Couldn't find an active session."
+        status: {code: 401,
+        message: "Couldn't find an active session."}
       }, status: :unauthorized
     end
   end
