@@ -9,4 +9,8 @@ class User < ApplicationRecord # rubocop:todo Style/Documentation
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :rememberable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  def send_test_email
+    UserMailer.test_email(self).deliver_now
+  end
 end
