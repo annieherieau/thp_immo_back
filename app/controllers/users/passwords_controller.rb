@@ -18,20 +18,23 @@ class Users::PasswordsController < Devise::PasswordsController
     end
 
     @user = User.find_by(email: params[:email].downcase)
-    @url = params[:url]
+   
     puts(@url)
     # if user.present? && user.confirmed_at?
     if @user.present?
-      # user.generate_password_token!
-      # SEND EMAIL HERE
+
+      #  générer le reset_password_token
       puts('!'*30)
-      @reset_password_token = @user.send_reset_password_instructions
-      @user.send_test_email
-      if @reset_password_token 
+      @token = @user.generate_password_token!
+      puts(@token)
+      puts( @user.reset_password_token)
+     
+      # envoyer l'email
+      if @user.send_reset_password_instructions(@token)
         render json: {
           status: {code: 200,
             message: 'Instruction email successfully sent. Please check your spam.'},
-          data: {reset_password_token: @reset_password_token,
+          data: {reset_password_token: @token,
             user: @user}
         }, status: :ok
       else
