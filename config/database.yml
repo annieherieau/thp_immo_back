@@ -21,7 +21,7 @@ default: &default
 
 development:
   <<: *default
-  database: rails_api_back_development
+  database: thp_immo_back_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -55,7 +55,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: rails_api_back_test
+  database: thp_immo_back_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,6 +79,6 @@ test:
 #
 production:
   <<: *default
-  database: rails_api_back_production
-  username: rails_api_back
-  password: <%= ENV["RAILS_API_BACK_DATABASE_PASSWORD"] %>
+  database: thp_immo_back_production
+  username: thp_immo_back
+  password: <%= ENV["THP_IMMO_BACK_DATABASE_PASSWORD"] %>
