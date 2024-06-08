@@ -7,16 +7,16 @@ Rails.application.configure do
 
   # MAILER
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { :host => "https://projet-chaton-ultimate.fly.dev/" }
+  config.action_mailer.default_url_options = { host: 'https://projet-chaton-ultimate.fly.dev/' }
   # Config SMTP : Mailjet
   ActionMailer::Base.smtp_settings = {
-    :user_name => ENV['MAILJET_LOGIN'],
-    :password => ENV['MAILJET_PWD'],
-    :domain =>  ENV['MAILJET_SENDER_DOMAIN'],
-    :address => 'in-v3.mailjet.com',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
+    user_name: ENV['MAILJET_LOGIN'],
+    password: ENV['MAILJET_PWD'],
+    domain: ENV['MAILJET_SENDER_DOMAIN'],
+    address: 'in-v3.mailjet.com',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Code is not reloaded between requests.
