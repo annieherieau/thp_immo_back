@@ -28,12 +28,11 @@ def reset_db
   puts('drop and reset all tables')
 end
 
-def create_users(number, is_owner=false)
+def create_users(number)
   number.times do |i|
     User.create!(
       email: Faker::Internet.unique.email,
-      password: '123456',
-      is_owner: is_owner
+      password: '123456'
     )
   end
   puts("#{number} Users créés #{is_owner ? 'propritaires':''}")
@@ -42,4 +41,3 @@ end
 # PERFORM SEEDING
 reset_db
 create_users(5)
-create_users(5, true)

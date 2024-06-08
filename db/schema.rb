@@ -23,7 +23,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_201140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "jti", null: false
-    t.boolean "is_owner", default: false
     t.string "first_name", default: ""
     t.string "last_name", default: ""
     t.index ["email"], name: "index_users_on_email", unique: true
