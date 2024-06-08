@@ -1,41 +1,29 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
-  # GET /resource/password/new
-  # def new
-  #   super
-  # end
-
   # POST /resource/password
   # envoi du mail reset_password_instructions
-  # adresse dans le mail : /resource/password/edit?reset_password_token=abcdef
+  # adresse dans le mail : /password/edit?reset_password_token=abcdef
   def create
-    puts('*'*30)
-    puts(request.body)
-    puts('*'*30)
     if params[:email].blank?
-      render json: {error: 'Email not present'}
+      render json: {
+        status:{ code: 422,
+        message: "Email not present."}
+      }, status: :unprocessable_entity
     end
-
     @user = User.find_by(email: params[:email].downcase)
    
-    puts(@url)
     # if user.present? && user.confirmed_at?
     if @user.present?
-
       #  générer le reset_password_token
-      puts('!'*30)
       @token = @user.generate_password_token!
-      puts(@token)
-      puts( @user.reset_password_token)
      
       # envoyer l'email
       if @user.send_reset_password_instructions(@token)
         render json: {
           status: {code: 200,
             message: 'Instruction email successfully sent. Please check your spam.'},
-          data: {reset_password_token: @token,
-            user: @user}
+          data: {reset_password_token: @token}
         }, status: :ok
       else
         render json: {
@@ -52,15 +40,40 @@ class Users::PasswordsController < Devise::PasswordsController
     end
   end
 
-  # GET /resource/password/edit?reset_password_token=abcdef
-  # def edit
-  #   super
-  # end
-
   # PUT /resource/password
-  # def update
-  #   super
-  # end
+  def update
+    if params[:token].blank?
+      render json: {
+        status:{ code: 422,
+        message: "Reset_password_token not present."}
+      }, status: :unprocessable_entity
+    end
+
+    @reset_password_token = params[:token]
+    puts('*'*30)
+    puts(@reset_password_token)
+    @user = User.find_by(reset_password_token: @reset_password_token)
+    puts(@user.reset_password_sent_at)
+    puts(@user.reset_password_token)
+    # if @user.present? && @user.password_token_valid?
+    #   if @user.reset_password!(params[:password])
+    #     render json: {
+    #       status: {code: 200,
+    #       message: "Password successfully updated"}
+    #     }, status: :ok
+    #   else
+    #     render json: {
+    #     status:{ code: 422,
+    #     message: "Password couldn't be updated successfully. #{@user.errors.full_messages}"}
+    #     }, status: :unprocessable_entity
+    #   end
+    # else
+    #   render json: {
+    #     status:{ code: 422,
+    #     message: 'Link not valid or expired. Try generating a new link.'}
+    #   }, status: :not_found
+    # end
+  end
 
   # protected
 
