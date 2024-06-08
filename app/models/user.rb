@@ -25,6 +25,7 @@ class User < ApplicationRecord # rubocop:todo Style/Documentation
   end
 
   def password_token_valid?
+    # TODO: remplacer 6.hours par la config enreg dans config Devise config.reset_password_within
     (self.reset_password_sent_at + 6.hours) > Time.now.utc
   end
   
