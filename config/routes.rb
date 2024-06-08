@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :listings
+  resources :cities
   devise_for :users,
              controllers: {
                sessions: 'users/sessions',

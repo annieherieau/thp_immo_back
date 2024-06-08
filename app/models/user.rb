@@ -10,6 +10,9 @@ class User < ApplicationRecord # rubocop:todo Style/Documentation
          :recoverable, :validatable, :rememberable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
+  has_many :listings, foreign_key: 'listing_id', class_name: 'Listing'
+  has_many :purchases, foreign_key: 'purchase_id', class_name: 'Listing'
+
   def send_reset_password_instructions(raw)
     UserMailer.reset_password_instructions(self, raw).deliver_now
   end

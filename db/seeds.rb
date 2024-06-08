@@ -16,6 +16,7 @@ Faker::UniqueGenerator.clear
 # Supprimer toutes les données existantes
 def reset_db
   User.destroy_all
+  City.destroy_all
 
   # reset table sequence
   ActiveRecord::Base.connection.tables.each do |t|
@@ -35,9 +36,34 @@ def create_users(number)
       password: '123456'
     )
   end
-  puts("#{number} Users créés #{is_owner ? 'propritaires':''}")
+  puts("#{number} Users créés")
+end
+
+def create_cities(number)
+  number.times do |i|
+    City.create!(
+      name: Faker::Address.unique.city,
+    )
+  end
+  puts("#{number} Cities créés")
+end
+
+def create_listings(number)
+  number.times do |i|
+    Listing.create!(
+      user: User.all.sample,
+      city: City.all.sample,
+      title: Faker::Books::Dune.planet,
+      description: Faker::Books::Dune.quote,
+      price: Faker::Number.within(range: 100..1000)
+    )
+  end
+  puts("#{number} Listings créés")
 end
 
 # PERFORM SEEDING
 reset_db
-create_users(5)
+create_users(10)
+create_cities(5)
+create_listings(30)
+
