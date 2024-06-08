@@ -9,6 +9,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require 'faker'
+Faker::Config.locale='fr'
+Faker::UniqueGenerator.clear
 
 # Supprimer toutes les données existantes
 def reset_db
@@ -25,16 +28,18 @@ def reset_db
   puts('drop and reset all tables')
 end
 
-def create_users(number)
+def create_users(number, is_owner=false)
   number.times do |i|
     User.create!(
-      email: "user#{i + 1}@test.test",
-      password: '123456'
+      email: Faker::Internet.unique.email,
+      password: '123456',
+      is_owner: is_owner
     )
   end
-  puts("#{number} Users créés")
+  puts("#{number} Users créés #{is_owner ? 'propritaires':''}")
 end
 
 # PERFORM SEEDING
 reset_db
 create_users(5)
+create_users(5, true)
