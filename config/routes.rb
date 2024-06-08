@@ -2,12 +2,12 @@
 
 Rails.application.routes.draw do
   devise_for :users,
-    controllers: {
-      sessions: 'users/sessions',
-      registrations: 'users/registrations',
-      passwords: "users/passwords"
-    },
-    defaults: { format: :json }
+             controllers: {
+               sessions: 'users/sessions',
+               registrations: 'users/registrations',
+               passwords: 'users/passwords'
+             },
+             defaults: { format: :json }
   get '/myprofile', to: 'profiles#show'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

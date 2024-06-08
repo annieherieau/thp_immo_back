@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord # rubocop:todo Style/Documentation
   include Devise::JWT::RevocationStrategies::JTIMatcher
-  
+
   # Include default devise modules. Others available are:
   # :recoverable, :rememberable, :validatable,
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -26,13 +26,12 @@ class User < ApplicationRecord # rubocop:todo Style/Documentation
 
   def password_token_valid?
     # TODO: remplacer 6.hours par la config enreg dans config Devise config.reset_password_within
-    (self.reset_password_sent_at + 6.hours) > Time.now.utc
+    (reset_password_sent_at + 6.hours) > Time.now.utc
   end
-  
+
   def reset_password!(password)
     self.reset_password_token = nil
     self.password = password
     save!
   end
-
 end
