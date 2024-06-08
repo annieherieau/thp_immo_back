@@ -17,13 +17,13 @@ class Users::PasswordsController < Devise::PasswordsController
     if @user.present?
       #  générer le reset_password_token
       @token = @user.generate_password_token!
-     
+      headers['Authorization'] = "Bearer #{@token}"
+
       # envoyer l'email
       if @user.send_reset_password_instructions(@token)
         render json: {
           status: {code: 200,
-            message: 'Instruction email successfully sent. Please check your spam.'},
-          data: {reset_password_token: @token}
+            message: 'Instruction email successfully sent. Please check your spam.'}
         }, status: :ok
       else
         render json: {
@@ -42,41 +42,43 @@ class Users::PasswordsController < Devise::PasswordsController
 
   # PUT /resource/password
   def update
-    if params[:token].blank?
+    # reset_password_token
+    @reset_password_token = request.headers['Authorization'].sub("Bearer ", "")
+    if @reset_password_token.blank?
       render json: {
-        status:{ code: 422,
-        message: "Reset_password_token not present."}
+        status: {code: 422,
+        message: "Reset_password_token missing in headers."}
       }, status: :unprocessable_entity
     end
 
-    @reset_password_token = params[:token]
-    puts('*'*30)
-    puts(@reset_password_token)
-    @user = User.find_by(reset_password_token: @reset_password_token)
-    puts(@user.reset_password_sent_at)
-    puts(@user.reset_password_token)
-    # if @user.present? && @user.password_token_valid?
-    #   if @user.reset_password!(params[:password])
-    #     render json: {
-    #       status: {code: 200,
-    #       message: "Password successfully updated"}
-    #     }, status: :ok
-    #   else
-    #     render json: {
-    #     status:{ code: 422,
-    #     message: "Password couldn't be updated successfully. #{@user.errors.full_messages}"}
-    #     }, status: :unprocessable_entity
-    #   end
-    # else
-    #   render json: {
-    #     status:{ code: 422,
-    #     message: 'Link not valid or expired. Try generating a new link.'}
-    #   }, status: :not_found
-    # end
+    # trouver user
+    @user = find_user_by_reset_password_token(@reset_password_token)
+    if @user.present? && @user.password_token_valid?
+      if @user.reset_password!(params[:password])
+        render json: {
+          status: {code: 200,
+          message: "Password successfully updated"}
+        }, status: :ok
+      else
+        render json: {
+        status: {code: 422,
+        message: "Password couldn't be updated successfully. #{@user.errors.full_messages}"}
+        }, status: :unprocessable_entity
+      end
+    else
+      render json: {
+        status: {code: 404,
+        message: 'Link not valid or expired. Try generating a new link.'}
+      }, status: :not_found
+    end
   end
 
-  # protected
-
+  private
+  protected
+  def find_user_by_reset_password_token(token)
+    hashed = Devise.token_generator.digest(User, :reset_password_token, token)
+    User.find_by(reset_password_token: hashed)
+  end
   # def after_resetting_password_path_for(resource)
   #   super(resource)
   # end
