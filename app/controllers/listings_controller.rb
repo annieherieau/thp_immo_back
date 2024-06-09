@@ -35,7 +35,11 @@ class ListingsController < ApplicationController
 
   # DELETE /listings/1
   def destroy
-    @listing.destroy!
+    if @listing.destroy!
+      render json: { message: "listing deleted"}
+    else
+      render json: @listing.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -46,6 +50,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :address, :description, :price)
+      params.require(:listing).permit(:title, :address, :description, :price, :user_id, :city_id)
     end
 end

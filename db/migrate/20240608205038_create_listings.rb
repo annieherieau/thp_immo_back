@@ -5,8 +5,8 @@ class CreateListings < ActiveRecord::Migration[7.1]
       t.string :address, :default => ""
       t.text :description, null: false
       t.integer :price, :default => 0
-      t.belongs_to :city, index: true
-      t.belongs_to :user, index: true
+      t.belongs_to :city, foreign_key: true, null: false
+      t.belongs_to :user, index: true, null: false
 
       t.timestamps
     end
