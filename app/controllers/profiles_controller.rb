@@ -4,7 +4,6 @@ class ProfilesController < ApplicationController # rubocop:todo Style/Documentat
   before_action :set_user, only: %i[ show update ]
 
   def show
-    puts(@user)
     if @user
       render json: {
         status: {code: 200,
