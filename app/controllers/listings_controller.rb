@@ -2,14 +2,19 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show update destroy ]
 
   # GET /listings
-  def show
-    listing = Listing.find(params[:id])
-    render json: listing.as_json(methods: :photo_url)
+  def index
+    @listings = Listing.all.map do |listing|
+      {listing: listing, user_email: listing.user.email}
+    end
+    render json: @listings
   end
 
-  def index
-    listings = Listing.all
-    render json: listings.as_json(methods: :photo_url)
+  # GET /listings/1
+  def show
+    # @data = @listing
+    # @data.user_email: @listing.user.email
+    # puts (data)
+    render json: {listing: @listing, user_email: @listing.user.email}
   end
 
   # POST /listings
