@@ -2,15 +2,14 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show update destroy ]
 
   # GET /listings
-  def index
-    @listings = Listing.all
-
-    render json: @listings
+  def show
+    listing = Listing.find(params[:id])
+    render json: listing.as_json(methods: :photo_url)
   end
 
-  # GET /listings/1
-  def show
-    render json: @listing
+  def index
+    listings = Listing.all
+    render json: listings.as_json(methods: :photo_url)
   end
 
   # POST /listings
@@ -50,6 +49,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :address, :description, :price, :user_id, :city_id)
+      params.require(:listing).permit(:title, :address, :description, :price, :user_id, :city_id, :photo)
     end
 end
