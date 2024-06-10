@@ -11,9 +11,6 @@ class ListingsController < ApplicationController
 
   # GET /listings/1
   def show
-    # @data = @listing
-    # @data.user_email: @listing.user.email
-    # puts (data)
     render json: {listing: @listing, user_email: @listing.user.email}
   end
 

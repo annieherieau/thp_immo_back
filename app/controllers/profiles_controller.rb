@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController # rubocop:todo Style/Documentation
-  # before_action :authenticate_user!
+  before_action :set_user, only: %i[ show update ]
 
   def show
-    @user = get_user_from_token
+    puts(@user)
     if @user
       render json: {
         status: {code: 200,
@@ -19,14 +19,23 @@ class ProfilesController < ApplicationController # rubocop:todo Style/Documentat
     end
   end
 
+  def update
+
+  end
+
   private
-  def get_user
-    
+  def set_user
+    @user = get_user_from_token
   end
   def get_user_from_token # rubocop:todo Naming/AccessorMethodName
     jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1],
                              Rails.application.credentials.devise[:jwt_secret_key]).first
     user_id = jwt_payload['sub']
     User.find(user_id.to_s)
+  end
+
+    # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:email, :first_name, :first_name, :password, :password_confirmation)
   end
 end
