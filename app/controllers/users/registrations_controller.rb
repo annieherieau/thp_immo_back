@@ -23,10 +23,11 @@ module Users
           render json: {
             status: { code: 200,
              message: 'User updated successfully.' },
-            data: { user: current_user}
+            data: { user: @user}
           }, status: :ok
             return
           else
+            puts @listing.errors.full_messages
             render json: {
               errors: @user.errors}, status: 422
           end
