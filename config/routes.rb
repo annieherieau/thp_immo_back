@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  resources :listings
   resources :cities
+  resources :listings
+  get 'cities/:city_id/listings', to: 'listings#index_per_city'
+  get 'users/:user_id/listings', to: 'listings#index_per_user'
+
   devise_for :users,
              controllers: {
                sessions: 'users/sessions',

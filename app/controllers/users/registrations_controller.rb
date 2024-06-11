@@ -2,6 +2,7 @@
 
 module Users
   class RegistrationsController < Devise::RegistrationsController # rubocop:todo Style/Documentation
+    before_action :authenticate_user!, only: i%[update]
     before_action :set_user, only: %i[ update ]
     
     respond_to :json
@@ -23,10 +24,11 @@ module Users
           render json: {
             status: { code: 200,
              message: 'User updated successfully.' },
-            data: { user: current_user}
+            data: { user: @user}
           }, status: :ok
             return
           else
+            puts @listing.errors.full_messages
             render json: {
               errors: @user.errors}, status: 422
           end
