@@ -83,6 +83,8 @@ class ListingsController < ApplicationController
 
     def set_user
       @user_id = params[:user_id].to_i;
+    end
+    
     # Ensure the current user is the owner of the listing
     def authorize_user!
       head :forbidden unless @listing.user_id == current_user.id
