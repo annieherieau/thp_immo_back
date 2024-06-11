@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   resources :cities
   resources :listings
   get 'cities/:city_id/listings', to: 'listings#index_per_city'
-  get 'users/:user_id/listings', to: 'listings#index_per_user'
-  get '/email/:user_id', to: 'listings#show_email'
 
   devise_for :users,
              controllers: {
@@ -12,8 +10,8 @@ Rails.application.routes.draw do
                passwords: 'users/passwords'
              },
              defaults: { format: :json }
-  get '/myprofile', to: 'profiles#show'
-  get '/my_listings', to: 'profiles#my_listings' 
+  get '/my_profile', to: 'profiles#show'
+  get '/my_listings', to: 'listings#my_listings' 
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

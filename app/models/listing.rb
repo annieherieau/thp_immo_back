@@ -6,4 +6,6 @@ class Listing < ApplicationRecord
   def photo_url
     Rails.application.routes.url_helpers.rails_blob_url(photo, only_path: true) if photo.attached?
   end
+
+  
 end

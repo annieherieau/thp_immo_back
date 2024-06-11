@@ -1,35 +1,33 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show update destroy ]
   before_action :set_city, only: %i[index_per_city]
-  before_action :set_user, only: %i[index_per_user]
+  before_action :set_city, only: %i[index_per_city]
   before_action :authorize_user!, only: %i[ update destroy ]
 
   # GET /listings
   def index
-    @listings = Listing.all.map { |listing| listing_with_photo_url(listing) }
+    @listings = Listing.all.map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
     render json: @listings
   end
 
   # GET /cities/:city_id/listings
   def index_per_city
-    @filtered_listings = Listing.where(city_id: @city_id).map { |listing| listing_with_photo_url(listing) }
+    @filtered_listings = Listing.where(city_id: @city_id).map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
     render json: @filtered_listings
   end
 
-  # GET /users/:user_id/listings
-  def index_per_user
-    @listings = @user.listings.map { |listing| listing_with_photo_url(listing) }
-    render json: @listings
+  # get /my_listings
+  def my_listings
+    @listings = current_user.listings
+    @listings_with_photos = @listings.map do |listing|
+      listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name)
+    end
+    render json: @listings_with_photos
   end
 
   # GET /listings/1
   def show
-    render json: listing_with_photo_url(@listing)
-  end
-
-  def show_email
-    @user = User.find(params[:user_id].to_i)
-    render json: {email: @user.email}
+    render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name)
   end
 
   # POST /listings
@@ -37,7 +35,7 @@ class ListingsController < ApplicationController
     @listing = Listing.new(listing_params)
     @listing.user = get_user_from_token
     if @listing.save
-      render json: listing_with_photo_url(@listing), status: :created
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name), status: :created
     else
       puts @listing.errors.full_messages # Display validation errors
       render json: @listing.errors, status: :unprocessable_entity
@@ -47,7 +45,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     if @listing.update(listing_params)
-      render json: listing_with_photo_url(@listing)
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name)
     else
       render json: @listing.errors, status: :unprocessable_entity
     end
@@ -84,7 +82,7 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :address, :description, :price, :city_id, :photo)
+      params.require(:listing).permit(:title, :address, :description, :price, :city_id, :photo, :user_id)
     end
 
     def get_user_from_token
