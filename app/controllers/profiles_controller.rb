@@ -2,7 +2,6 @@
 
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-class ProfilesController < ApplicationController # rubocop:todo Style/Documentation
   before_action :set_user, only: %i[ show update ]
 
   def index
