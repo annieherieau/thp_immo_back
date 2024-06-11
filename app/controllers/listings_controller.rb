@@ -35,7 +35,7 @@ class ListingsController < ApplicationController
     @listing = Listing.new(listing_params)
     @listing.user = get_user_from_token
     if @listing.save
-      render json: listing_with_photo_url(@listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name), status: :created
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name), status: :created
     else
       puts @listing.errors.full_messages # Display validation errors
       render json: @listing.errors, status: :unprocessable_entity
@@ -45,7 +45,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     if @listing.update(listing_params)
-      render json: listing_with_photo_url(@listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name)
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name)
     else
       render json: @listing.errors, status: :unprocessable_entity
     end
