@@ -55,4 +55,4 @@ gem 'table_print', '~> 1.5'
 
 gem 'dotenv', '~> 3.1'
 
-gem "faker", "~> 3.4"
+gem 'faker', '~> 3.4'

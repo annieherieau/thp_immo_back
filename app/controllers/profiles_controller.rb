@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
-class ProfilesController < ApplicationController # rubocop:todo Style/Documentation
+class ProfilesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: %i[ show update ]
+
+  def index
+    @listings = current_user.listings
+  end
 
   def show
     if @user
@@ -20,6 +25,11 @@ class ProfilesController < ApplicationController # rubocop:todo Style/Documentat
 
   def update
 
+  end
+
+  def my_listings
+    @listings = current_user.listings
+    render json: @listings
   end
 
   private
