@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_122523) do
     t.text "description", null: false
     t.integer "price", default: 0
     t.bigint "city_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["city_id"], name: "index_listings_on_city_id"
