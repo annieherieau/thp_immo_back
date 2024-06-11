@@ -7,9 +7,10 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    @listings = Listing.all.map do |listing|
-      {listing: listing, user_email: listing.user.email}
-    end
+    @listings = Listing.all.map
+    # @listings = Listing.all.map do |listing|
+    #   {listing: listing, user_email: listing.user.email}
+    # end
     render json: @listings
   end
 
@@ -18,10 +19,10 @@ class ListingsController < ApplicationController
     @filtered_listings = Listing.all.filter do |listing|
       @city_id == listing.city_id
     end
-    @listings = @filtered_listings.map do |listing|
-      {listing: listing, user_email: listing.user.email}
-    end
-    render json:  @listings
+    # @listings = @filtered_listings.map do |listing|
+    #   {listing: listing, user_email: listing.user.email}
+    # end
+    render json:  @filtered_listings
   end
 
   # GET /users/:user_id/listings
@@ -29,10 +30,10 @@ class ListingsController < ApplicationController
     @filtered_listings = Listing.all.filter do |listing|
       @user_id === listing.user_id
     end
-    @listings = @filtered_listings.map do |listing|
-      {listing: listing, user_email: listing.user.email}
-    end
-    render json: @listings
+    # @listings = @filtered_listings.map do |listing|
+    #   {listing: listing, user_email: listing.user.email}
+    # end
+    render json: @filtered_listings
   end
 
   # GET /listings/1
