@@ -1,19 +1,28 @@
 # frozen_string_literal: true
 
-class ProfilesController < ApplicationController # rubocop:todo Style/Documentation
+class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @listings = current_user.listings
+  end
+
   def show
-    user = get_user_from_token
+    @user = get_user_from_token
     render json: {
       message: "If you see this, you're in!",
-      user:
+      user: @user
     }
+  end
+
+  def my_listings
+    @listings = current_user.listings
+    render json: @listings
   end
 
   private
 
-  def get_user_from_token # rubocop:todo Naming/AccessorMethodName
+  def get_user_from_token
     jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1],
                              Rails.application.credentials.devise[:jwt_secret_key]).first
     user_id = jwt_payload['sub']
