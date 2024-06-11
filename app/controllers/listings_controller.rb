@@ -38,7 +38,8 @@ class ListingsController < ApplicationController
 
   # GET /listings/1
   def show
-    render json: {listing: @listing, user_email: @listing.user.email}
+    # render json: {listing: @listing, user_email: @listing.user.email}
+    render json: @listing
   end
 
   # POST /listings
