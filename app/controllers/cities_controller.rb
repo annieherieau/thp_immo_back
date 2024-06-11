@@ -3,7 +3,7 @@ class CitiesController < ApplicationController
 
   # GET /cities
   def index
-    @cities = City.all
+    @cities = City.all.sort_by{|city| city.name}
 
     render json: @cities
   end
