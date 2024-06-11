@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :listings
   get 'cities/:city_id/listings', to: 'listings#index_per_city'
   get 'users/:user_id/listings', to: 'listings#index_per_user'
+  get '/email/:user_id', to: 'listings#show_email'
 
   devise_for :users,
              controllers: {
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
              defaults: { format: :json }
   get '/myprofile', to: 'profiles#show'
   get '/my_listings', to: 'profiles#my_listings' 
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

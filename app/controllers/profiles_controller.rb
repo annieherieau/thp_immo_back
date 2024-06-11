@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!,  only: %i[ show update ]
   before_action :set_user, only: %i[ show update ]
 
   def index
@@ -23,6 +23,7 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def
   def update
 
   end
