@@ -2,6 +2,7 @@
 
 module Users
   class RegistrationsController < Devise::RegistrationsController # rubocop:todo Style/Documentation
+    before_action :authenticate_user!, only: i%[update]
     before_action :set_user, only: %i[ update ]
     
     respond_to :json
