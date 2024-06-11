@@ -14,8 +14,7 @@ module Users
         status: { code: 200,
                   message: 'Logged in successfully.' },
         data: { token: @token,
-                user: current_user,
-                session: }
+                user: current_user}
       }, status: :ok
     end
 

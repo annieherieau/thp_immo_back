@@ -5,14 +5,15 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    @listings = Listing.all
-    
+    @listings = Listing.all.map do |listing|
+      {listing: listing, user_email: listing.user.email}
+    end
     render json: @listings
   end
 
   # GET /listings/1
   def show
-    render json: @listing
+    render json: {listing: @listing, user_email: @listing.user.email}
   end
 
   # POST /listings
