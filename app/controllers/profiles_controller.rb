@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!,  only: %i[ show update ]
-  before_action :set_user, only: %i[ show update ]
   before_action :authenticate_user!
   before_action :set_user, only: %i[ show update my_listings]
 
@@ -26,9 +24,6 @@ class ProfilesController < ApplicationController
   end
 
   def
-  def update
-
-  end
 
   def my_listings
     @listings = @user.listings
