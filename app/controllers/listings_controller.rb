@@ -45,7 +45,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     if @listing.update(listing_params)
-      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name)
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name), status: :ok
     else
       render json: @listing.errors, status: :unprocessable_entity
     end
