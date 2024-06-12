@@ -6,7 +6,7 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    @listings = Listing.all.map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
+    @listings = Listing.all.sort().reverse().map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
     render json: @listings
   end
 
@@ -18,7 +18,7 @@ class ListingsController < ApplicationController
 
   # get /my_listings
   def my_listings
-    @listings = current_user.listings
+    @listings = current_user.listings.sort().reverse()
     @listings_with_photos = @listings.map do |listing|
       listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name)
     end
