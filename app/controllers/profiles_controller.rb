@@ -2,12 +2,9 @@
 
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[ show update my_listings]
+  before_action :set_user
 
-  def index
-    @listings = current_user.listings
-  end
-
+  # GET /my_profile
   def show
     if @user
       render json: {
@@ -21,29 +18,6 @@ class ProfilesController < ApplicationController
         message: "User Not Found"}
       }
     end
-  end
-
-  def update
-
-  end
-
-  def my_listings
-    @listings = @user.listings
-    listings_with_photos = @listings.map do |listing|
-      {
-        id: listing.id,
-        title: listing.title,
-        address: listing.address,
-        description: listing.description,
-        price: listing.price,
-        city_id: listing.city_id,
-        user_id: listing.user_id,
-        created_at: listing.created_at,
-        updated_at: listing.updated_at,
-        photo_url: listing.photo.attached? ? url_for(listing.photo) : nil
-      }
-    end
-    render json: listings_with_photos
   end
 
   private
@@ -61,4 +35,5 @@ class ProfilesController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :first_name, :first_name, :password, :password_confirmation)
   end
+
 end
