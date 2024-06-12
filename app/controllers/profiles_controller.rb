@@ -20,8 +20,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  def
-
   private
   def set_user
     @user = get_user_from_token
