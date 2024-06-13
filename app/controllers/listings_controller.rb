@@ -9,6 +9,10 @@ class ListingsController < ApplicationController
     @listings = Listing.all.sort().reverse().map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
     render json: @listings
   end
+  #GET /listings/search
+  def search
+    @listings = Listing.where("title LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").map { |listing| listing_with_photo_url(listing).as_json.merge(user_email: listing.user.email, city_name: listing.city.name) }
+  end
 
   # GET /cities/:city_id/listings
   def index_per_city
@@ -45,7 +49,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     if @listing.update(listing_params)
-      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name), status: :ok
+      render json: listing_with_photo_url(@listing).as_json.merge(user_email: @listing.user.email, city_name: @listing.city.name)
     else
       render json: @listing.errors, status: :unprocessable_entity
     end
@@ -82,7 +86,7 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :address, :description, :price, :city_id, :photo, :user_id)
+      params.require(:listing).permit(:title, :address, :description, :price, :city_id, :photo, :user_id, :surface_area, :number_of_rooms, :furnished, :bonus)
     end
 
     def get_user_from_token
