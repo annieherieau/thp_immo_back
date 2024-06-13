@@ -1,24 +1,42 @@
-# README
+# Marketplace immo (back)
+Marketplace d'immobilier où les personnes vont pouvoir faire de l'achat/vente de biens immobiliers.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**La team RAYM** : [Robena](https://github.com/Robe-Ras), [Annie](https://github.com/annieherieau), [Yann](https://github.com/YannRZG) et [Malo](https://github.com/Korblen)
 
-Things you may want to cover:
 
-* Ruby version
+## Stack
 
-* System dependencies
+L'application est Full Stack avec :
+- un [backend]() avec une API en Rails
+- un frontend avec React
 
-* Configuration
+## Installation en local (BACKEND)
+- Ruby 3.3.0
+- Rails 7.1.3.4
 
-* Database creation
+Clone repository
 
-* Database initialization
+```bash
+git clone [repo]
+```
 
-* How to run the test suite
+Install dépendencies
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+cd rails_api_boiler_plate
+bundle install
+```
 
-* Deployment instructions
+Database
 
-* ...
+```bash
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+Launch server
+
+```bash
+rails server
+```
