@@ -12,6 +12,11 @@ Rails.application.routes.draw do
              defaults: { format: :json }
   get '/my_profile', to: 'profiles#show'
   get '/my_listings', to: 'listings#my_listings' 
+  resources :listings do
+    collection do
+      get 'filtered', to: 'listings#filtered'
+    end
+  end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
