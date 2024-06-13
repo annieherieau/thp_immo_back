@@ -7,7 +7,7 @@ Marketplace d'immobilier où les personnes vont pouvoir faire de l'achat/vente d
 ## Stack
 
 L'application est Full Stack avec :
-- un [backend]() avec une API en Rails
+- un backend avec une API en Rails
 - un frontend avec React
 
 ## Installation en local (BACKEND)
@@ -23,7 +23,7 @@ git clone [repo]
 Install dépendencies
 
 ```bash
-cd rails_api_boiler_plate
+cd thp_immo_back_rails_api_boiler_plate
 bundle install
 ```
 
