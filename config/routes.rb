@@ -1,8 +1,8 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
-  resources :listings
   resources :cities
+  resources :listings
+  get 'cities/:city_id/listings', to: 'listings#index_per_city'
+
   devise_for :users,
              controllers: {
                sessions: 'users/sessions',
@@ -10,7 +10,14 @@ Rails.application.routes.draw do
                passwords: 'users/passwords'
              },
              defaults: { format: :json }
-  get '/myprofile', to: 'profiles#show'
+  get '/my_profile', to: 'profiles#show'
+  get '/my_listings', to: 'listings#my_listings' 
+  resources :listings do
+    collection do
+      get 'filtered', to: 'listings#filtered'
+    end
+  end
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

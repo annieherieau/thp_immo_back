@@ -10,13 +10,14 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 require 'faker'
-Faker::Config.locale='fr'
+Faker::Config.locale = 'fr'
 Faker::UniqueGenerator.clear
 
 # Supprimer toutes les données existantes
 def reset_db
   User.destroy_all
   City.destroy_all
+  Listing.destroy_all
 
   # reset table sequence
   ActiveRecord::Base.connection.tables.each do |t|
@@ -26,7 +27,7 @@ def reset_db
     # ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = '#{t}'")
   end
 
-  puts('drop and reset all tables')
+  puts('Drop and reset all tables')
 end
 
 def create_users(number)
@@ -42,7 +43,7 @@ end
 def create_cities(number)
   number.times do |i|
     City.create!(
-      name: Faker::Address.unique.city,
+      name: Faker::Address.unique.city
     )
   end
   puts("#{number} Cities créés")
@@ -54,8 +55,13 @@ def create_listings(number)
       user: User.all.sample,
       city: City.all.sample,
       title: Faker::Books::Dune.planet,
+      address: Faker::Address.street_address,
       description: Faker::Books::Dune.quote,
-      price: Faker::Number.within(range: 100..1000)
+      price: Faker::Number.within(range: 100..1000),
+      surface_area: Faker::Number.within(range: 20..200),
+      number_of_rooms: Faker::Number.within(range: 1..10),
+      furnished: Faker::Boolean.boolean,
+      bonus: ['Jardin', 'Terrasse', 'Sous-sol', 'Gardien'].sample(2).join(', ')
     )
   end
   puts("#{number} Listings créés")
@@ -66,4 +72,3 @@ reset_db
 create_users(10)
 create_cities(5)
 create_listings(30)
-

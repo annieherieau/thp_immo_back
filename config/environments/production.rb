@@ -8,6 +8,7 @@ Rails.application.configure do
   # MAILER
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = { host: 'https://projet-chaton-ultimate.fly.dev/' }
+  
   # Config SMTP : Mailjet
   ActionMailer::Base.smtp_settings = {
     user_name: ENV['MAILJET_LOGIN'],
