@@ -10,7 +10,7 @@ L'application est Full Stack avec :
 - un [backend]() avec une API en Rails
 - un frontend avec React
 
-## Installation en local (BACKEND)
+## Installation en local BACKEND
 - Ruby 3.3.0
 - Rails 7.1.3.4
 
